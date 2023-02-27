@@ -4,6 +4,7 @@ import express from "express"; // "type": "module"
 const app = express();
 import { MongoClient } from "mongodb";
 import moviesRouter from "./router/movies.router.js";
+import cors from "cors";
 console.log(process.env.MONGO_URL);
 const PORT = process.env.PORT;
 
@@ -16,6 +17,9 @@ export const client = new MongoClient(MONGO_URL); // dial
 await client.connect(); // call
 console.log("Mongo is connected !!!  ");
 //cover body to json
+
+app.use(cors()); //3re part middle ware
+
 app.use(express.json());
 app.get("/", function (request, response) {
   response.send("🙋‍♂️, 🌏 ,jeeva");

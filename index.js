@@ -3,7 +3,7 @@ dotenv.config();
 import express from "express"; // "type": "module"
 const app = express();
 import { MongoClient } from "mongodb";
-import moviesRouter from "./router/movies.js";
+import moviesRouter from "./router/movies.router.js";
 console.log(process.env.MONGO_URL);
 const PORT = process.env.PORT;
 

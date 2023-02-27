@@ -1,12 +1,14 @@
 import express from "express";
-import { client } from "../index.js";
+import {
+  getmovie,
+  getmoviebyid,
+  postmovie,
+  Deletemovie,
+  Updatemoviebyid,
+} from "./service/movie.service.js";
 const router = express.Router();
 router.get("/", async function (request, response) {
-  const movie = await client
-    .db("B42Mongo")
-    .collection("movies")
-    .find({})
-    .toArray();
+  const movie = await getmovie();
   response.send(movie);
 });
 
@@ -14,10 +16,7 @@ router.get("/:id", async function (request, response) {
   const { id } = request.params;
   console.log(id);
   // const movie = movies.find((mv) => mv.id === id);
-  const movie = await client
-    .db("B42Mongo")
-    .collection("movies")
-    .findOne({ id: id });
+  const movie = await getmoviebyid(id);
 
   movie
     ? response.send(movie)
@@ -29,10 +28,7 @@ router.post("/", async function (request, response) {
   const data = request.body;
 
   // db.movies.insertmany(data)
-  const result = await client
-    .db("B42Mongo")
-    .collection("movies")
-    .insertMany(data);
+  const result = await postmovie(data);
   response.send(result);
 });
 
@@ -40,10 +36,7 @@ router.delete("/:id", async function (request, response) {
   const { id } = request.params;
   console.log(id);
   // const movie = movies.find((mv) => mv.id === id);
-  const result = await client
-    .db("B42Mongo")
-    .collection("movies")
-    .deleteOne({ id: id });
+  const result = await Deletemovie(id);
   console.log(result);
   result.deletedCount >= 1
     ? response.send({ message: "The movie succesfully Delete" })
@@ -59,10 +52,7 @@ router.put("/:id", async function (request, response) {
 
   //db.movies.updateOne({id:id},{$set:data})
   // const movie = movies.find((mv) => mv.id === id);
-  const result = await client
-    .db("B42Mongo")
-    .collection("movies")
-    .updateOne({ id: id }, { $set: data });
+  const result = await Updatemoviebyid(id, data);
 
   response.send(result);
   // : response.status(404).send({ message: "The movie not found" });

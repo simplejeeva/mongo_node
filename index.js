@@ -5,7 +5,7 @@ const app = express();
 import { MongoClient } from "mongodb";
 
 console.log(process.env.MONGO_URL);
-const PORT = 4000;
+const PORT = process.env.PORT;
 
 console.log(process.env.MONGO_URL);
 // const MONGO_URL = "mongodb://127.0.0.1";

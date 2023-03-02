@@ -5,6 +5,8 @@ const app = express();
 import { MongoClient } from "mongodb";
 import moviesRouter from "./router/movies.router.js";
 import cors from "cors";
+import usersRouter from "./router/users.router.js";
+
 console.log(process.env.MONGO_URL);
 const PORT = process.env.PORT;
 
@@ -26,4 +28,6 @@ app.get("/", function (request, response) {
 });
 
 app.use("/movies", moviesRouter);
+app.use("/users", usersRouter);
+
 app.listen(PORT, () => console.log(`The server started in: ${PORT} ✨✨`));

@@ -1,4 +1,4 @@
-import express from "express";
+import express, { query } from "express";
 import {
   getmovie,
   getmoviebyid,
@@ -6,9 +6,17 @@ import {
   Deletemovie,
   Updatemoviebyid,
 } from "./service/movie.service.js";
+import { auth } from "./middleware/auth.js";
 const router = express.Router();
+
 router.get("/", async function (request, response) {
-  const movie = await getmovie();
+  console.log(request.query);
+  if (request.query.rating) {
+    request.query.rating = +request.query.rating;
+  }
+  console.log(request.query);
+  const movie = await getmovie(request.query);
+  // console.log(movie);
   response.send(movie);
 });
 
